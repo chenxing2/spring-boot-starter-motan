@@ -17,7 +17,7 @@
 package com.github.chenxing2.motan.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Protocol Config
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * @author 	alanwei
  * @since 	2016-09-11
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "motan.protocol")
 public class ProtocolConfigProperties {
 
