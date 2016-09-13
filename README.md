@@ -1,6 +1,6 @@
 # spring-boot-starter-motan
 
-暂未完成,Motan的配置bean过早加载...
+暂未完成
 
 spring-boot motan 整合的项目，可通过application.properties配置。
 
