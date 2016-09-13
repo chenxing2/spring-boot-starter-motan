@@ -19,8 +19,11 @@ package com.github.chenxing2.motan.cmd;
 import javax.annotation.Resource;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
-import com.github.chenxing2.motan.config.RegistryConfig;
+import com.github.chenxing2.motan.properties.RegistryConfigProperties;
 import com.weibo.api.motan.common.MotanConstants;
 import com.weibo.api.motan.util.MotanSwitcherUtil;
 
@@ -30,15 +33,16 @@ import com.weibo.api.motan.util.MotanSwitcherUtil;
  * @author 	alanwei
  * @since 	2016-09-11
  */
+@Configuration
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class MotanCommandLineRunner implements CommandLineRunner {
 
 	/** Registry Config */
 	@Resource
-	private RegistryConfig registryConfig;
+	private RegistryConfigProperties registryConfig;
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
 		
 		if (!registryConfig.getRegProtocol().toLowerCase().equals("local")) {
 			// 开启注册中心
