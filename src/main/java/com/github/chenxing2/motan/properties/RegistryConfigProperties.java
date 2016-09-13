@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.chenxing2.motan.config;
+package com.github.chenxing2.motan.properties;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties(prefix = "motan.registry")
-public class RegistryConfig {
+public class RegistryConfigProperties {
 
 	/** 注册配置名称 */
 	private String name;
@@ -64,7 +63,6 @@ public class RegistryConfig {
 	private Boolean subscribe;
 	
 	/** 是否缺省的配置 */
-	@Value("${motan.registry.default}")
 	private Boolean defaultConfig;
 
 	/**

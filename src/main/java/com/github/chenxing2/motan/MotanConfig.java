@@ -16,16 +16,14 @@
  */
 package com.github.chenxing2.motan;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.util.StringUtils;
 
-import com.github.chenxing2.motan.config.AnnotationConfig;
-import com.github.chenxing2.motan.config.BasicServiceConfig;
-import com.github.chenxing2.motan.config.ProtocolConfig;
-import com.github.chenxing2.motan.config.RegistryConfig;
+import com.github.chenxing2.motan.properties.BasicServiceConfigProperties;
+import com.github.chenxing2.motan.properties.ProtocolConfigProperties;
+import com.github.chenxing2.motan.properties.RegistryConfigProperties;
 import com.weibo.api.motan.config.ExtConfig;
 import com.weibo.api.motan.config.springsupport.AnnotationBean;
 import com.weibo.api.motan.config.springsupport.BasicServiceConfigBean;
@@ -46,39 +44,23 @@ public class MotanConfig {
 	/** 协议配置bean名称 */
 	private static final String PROTOCOL_CONFIG_BEAN_NAME = "_spring-boot-starter-motan-protocol_";
 	
-	/** Annotation Config */
-	@Resource
-	private AnnotationConfig annotationConfig;
-	
-	/** Registry Config */
-	@Resource
-	private RegistryConfig registryConfig;
-	
-	/** Protocol Config */
-	@Resource
-	private ProtocolConfig protocolConfig;
-
-	/** BasicService Config */
-	@Resource
-	private BasicServiceConfig basicServiceConfig;
-	
 	/**
 	 * define AnnotationBean
 	 */
 	@Bean
-    public AnnotationBean motanAnnotationBean() {
-        AnnotationBean motanAnnotationBean = new AnnotationBean();
-        if (!StringUtils.isEmpty(annotationConfig.getScanPackage())) {
-        	motanAnnotationBean.setPackage(annotationConfig.getScanPackage());
-        }
-        return motanAnnotationBean;
-    }
+	public AnnotationBean annotationBean(@Value("${motan.annotation.package}") String scanPackage) {
+		AnnotationBean annotationBean = new AnnotationBean();
+		if (!StringUtils.isEmpty(scanPackage)) {
+			annotationBean.setPackage(scanPackage);
+		}
+		return annotationBean;
+	}
 	
 	/**
 	 * define RegistryConfigBean
 	 */
-	@Bean
-    public RegistryConfigBean registryConfig() {
+	@Bean(name = REGISTRY_CONFIG_BEAN_NAME)
+    public RegistryConfigBean registryConfig(RegistryConfigProperties registryConfig) {
         RegistryConfigBean config = new RegistryConfigBean();
         config.setName(REGISTRY_CONFIG_BEAN_NAME);
         if (!StringUtils.isEmpty(registryConfig.getRegProtocol())) {
@@ -117,20 +99,23 @@ public class MotanConfig {
         return config;
     }
 	
-	
-	
 	/**
 	 * define ProtocolConfigBean
 	 * 
 	 * 属性来自Motan的配置文档
 	 * @see https://github.com/weibocom/motan/blob/master/docs/wiki/zh_configuration.md
 	 * 
-	 * 注释的代码，在Motan0.21版本中已不支持这些属性设置，使用表示相同意义的参数设置
+	 * 注释的代码，在Motan0.21版本中已不支持这些属性设置，可使用表示相同意义的参数设置
 	 */
-	@Bean
-    public ProtocolConfigBean protocolConfig() {
+	@Bean(name = PROTOCOL_CONFIG_BEAN_NAME)
+    public ProtocolConfigBean protocolConfig(ProtocolConfigProperties protocolConfig) {
         ProtocolConfigBean config = new ProtocolConfigBean();
-        config.setName(PROTOCOL_CONFIG_BEAN_NAME);
+        // 如果未配置，则默认设置为motan
+        if (!StringUtils.isEmpty(protocolConfig.getName())) {
+        	config.setName(protocolConfig.getName());
+        } else {
+        	config.setName("motan");
+        }
         if (!StringUtils.isEmpty(protocolConfig.getSerialization())) {
         	config.setSerialization(protocolConfig.getSerialization());
         }
@@ -219,10 +204,10 @@ public class MotanConfig {
 	 * 属性来自Motan的配置文档
 	 * @see https://github.com/weibocom/motan/blob/master/docs/wiki/zh_configuration.md
 	 * 
-	 * 挑了一些属性，不全
+	 * 挑了一些属性，不全，后续补全
 	 */
 	@Bean
-    public BasicServiceConfigBean baseServiceConfig() {
+    public BasicServiceConfigBean baseServiceConfig(BasicServiceConfigProperties basicServiceConfig, RegistryConfigBean registryConfigBean) {
         BasicServiceConfigBean config = new BasicServiceConfigBean();
         
         if (StringUtils.isEmpty(basicServiceConfig.getExportPort())) {

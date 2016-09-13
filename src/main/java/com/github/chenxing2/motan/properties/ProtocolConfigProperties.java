@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.chenxing2.motan.config;
+package com.github.chenxing2.motan.properties;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Protocol Config
@@ -25,8 +25,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author 	alanwei
  * @since 	2016-09-11
  */
+@Component
 @ConfigurationProperties(prefix = "motan.protocol")
-public class ProtocolConfig {
+public class ProtocolConfigProperties {
 
 	/** 服务协议名 */
 	private String name;
@@ -125,7 +126,6 @@ public class ProtocolConfig {
 	private String client;
 	
 	/** 是否缺省的配置 */
-	@Value("${motan.protocol.default}")
 	private Boolean defaultConfig;
 	
 	/** default localSwitcherService */

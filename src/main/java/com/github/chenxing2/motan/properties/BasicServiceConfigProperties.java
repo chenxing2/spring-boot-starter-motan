@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.chenxing2.motan.config;
+package com.github.chenxing2.motan.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * BasicServic Config
@@ -24,8 +25,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author 	alanwei
  * @since 	2016-09-11
  */
+@Component
 @ConfigurationProperties(prefix = "motan.basicservice")
-public class BasicServiceConfig {
+public class BasicServiceConfigProperties {
 
 	private String id;
 	
