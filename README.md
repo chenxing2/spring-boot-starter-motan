@@ -1,6 +1,6 @@
 # spring-boot-starter-motan
 
-暂未完成
+少一些属性，后续补全
 
 spring-boot motan 整合的项目，可通过application.properties配置。
 
