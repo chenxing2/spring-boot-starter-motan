@@ -19,13 +19,17 @@ package com.github.chenxing2.motan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.util.StringUtils;
 
+import com.github.chenxing2.motan.properties.BasicRefererConfigProperties;
 import com.github.chenxing2.motan.properties.BasicServiceConfigProperties;
 import com.github.chenxing2.motan.properties.ProtocolConfigProperties;
 import com.github.chenxing2.motan.properties.RegistryConfigProperties;
+import com.github.chenxing2.motan.support.BasicServiceConfigCondition;
 import com.weibo.api.motan.config.ExtConfig;
 import com.weibo.api.motan.config.springsupport.AnnotationBean;
+import com.weibo.api.motan.config.springsupport.BasicRefererConfigBean;
 import com.weibo.api.motan.config.springsupport.BasicServiceConfigBean;
 import com.weibo.api.motan.config.springsupport.ProtocolConfigBean;
 import com.weibo.api.motan.config.springsupport.RegistryConfigBean;
@@ -207,14 +211,19 @@ public class MotanConfig {
 	 * 挑了一些属性，不全，后续补全
 	 */
 	@Bean
+	@Conditional(BasicServiceConfigCondition.class)
     public BasicServiceConfigBean baseServiceConfig(BasicServiceConfigProperties basicServiceConfig, RegistryConfigBean registryConfigBean) {
         BasicServiceConfigBean config = new BasicServiceConfigBean();
         
-        if (StringUtils.isEmpty(basicServiceConfig.getExportPort())) {
-        	throw new RuntimeException("need service export port...");
+        if (!StringUtils.isEmpty(basicServiceConfig.getExport())) {
+        	config.setExport(basicServiceConfig.getExport());
+        } else {
+        	// 未设置export，使用ProtocolConfigBeanName : port暴露
+        	if (StringUtils.isEmpty(basicServiceConfig.getExportPort())) {
+            	throw new RuntimeException("need service export port...");
+            }
+        	config.setExport(PROTOCOL_CONFIG_BEAN_NAME + ":" + basicServiceConfig.getExportPort());
         }
-        // ProtocolConfigBeanName : port
-        config.setExport(PROTOCOL_CONFIG_BEAN_NAME + ":" + basicServiceConfig.getExportPort());
         
         if (!StringUtils.isEmpty(basicServiceConfig.getExtConfigId())) {
 	        ExtConfig extConfig = new ExtConfig();
@@ -258,6 +267,48 @@ public class MotanConfig {
 			config.setCodec(basicServiceConfig.getCodec());
 		}
         
+        return config;
+    }
+	
+	/**
+	 * define BasicRefererConfigBean
+	 * 
+	 * 属性来自Motan的配置文档
+	 * @see https://github.com/weibocom/motan/blob/master/docs/wiki/zh_configuration.md
+	 * 
+	 * 挑了一些属性，不全，后续补全
+	 */
+	@Bean
+    public BasicRefererConfigBean baseRefererConfig(BasicRefererConfigProperties basicRefererConfig) {
+        BasicRefererConfigBean config = new BasicRefererConfigBean();
+        config.setProtocol(PROTOCOL_CONFIG_BEAN_NAME);
+        if (!StringUtils.isEmpty(basicRefererConfig.getGroup())) {
+        	config.setGroup(basicRefererConfig.getGroup());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getModule())) {
+        	config.setModule(basicRefererConfig.getModule());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getApplication())) {
+        	config.setApplication(basicRefererConfig.getApplication());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getRegistry())) {
+			// 追加内部的注册配置bean
+			config.setRegistry(REGISTRY_CONFIG_BEAN_NAME + "," + basicRefererConfig.getRegistry());
+		} else {
+			config.setRegistry(REGISTRY_CONFIG_BEAN_NAME);
+		}
+        if (!StringUtils.isEmpty(basicRefererConfig.getCheck())) {
+        	config.setCheck(basicRefererConfig.getCheck());
+        }
+        if (basicRefererConfig.getAccessLog() != null) {
+			config.setAccessLog(basicRefererConfig.getAccessLog());
+		}
+        if (basicRefererConfig.getRetries() != null) {
+        	config.setRetries(basicRefererConfig.getRetries());
+        }
+        if (basicRefererConfig.getThrowException() != null) {
+        	config.setThrowException(basicRefererConfig.getThrowException());
+        }
         return config;
     }
 }
