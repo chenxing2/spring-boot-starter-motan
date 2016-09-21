@@ -281,6 +281,7 @@ public class MotanConfig {
 	@Bean
     public BasicRefererConfigBean baseRefererConfig(BasicRefererConfigProperties basicRefererConfig) {
         BasicRefererConfigBean config = new BasicRefererConfigBean();
+        
         config.setProtocol(PROTOCOL_CONFIG_BEAN_NAME);
         if (!StringUtils.isEmpty(basicRefererConfig.getGroup())) {
         	config.setGroup(basicRefererConfig.getGroup());
@@ -309,6 +310,51 @@ public class MotanConfig {
         if (basicRefererConfig.getThrowException() != null) {
         	config.setThrowException(basicRefererConfig.getThrowException());
         }
+        if (!StringUtils.isEmpty(basicRefererConfig.getId())) {
+        	config.setId(basicRefererConfig.getId());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getVersion())) {
+        	config.setVersion(basicRefererConfig.getVersion());
+        }
+        if (basicRefererConfig.getShareChannel() != null) {
+			config.setShareChannel(basicRefererConfig.getShareChannel());
+		}
+        if (basicRefererConfig.getRequestTimeout() != null) {
+			config.setRequestTimeout(basicRefererConfig.getRequestTimeout());
+		}
+        if (!StringUtils.isEmpty(basicRefererConfig.getFilter())) {
+        	config.setFilter(basicRefererConfig.getFilter());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getExtConfigId())) {
+	        ExtConfig extConfig = new ExtConfig();
+	        extConfig.setId(basicRefererConfig.getExtConfigId());
+	        config.setExtConfig(extConfig);
+        }
+        if (basicRefererConfig.getActives() != null) {
+			config.setActives(basicRefererConfig.getActives());
+		}
+        if (basicRefererConfig.getAsync() != null) {
+			config.setAsync(basicRefererConfig.getAsync());
+		}
+        if (!StringUtils.isEmpty(basicRefererConfig.getCodec())) {
+        	config.setCodec(basicRefererConfig.getCodec());
+        }
+        if (basicRefererConfig.getUsegz() != null) {
+			config.setUsegz(basicRefererConfig.getUsegz());
+		}
+        if (basicRefererConfig.getMingzSize() != null) {
+        	config.setMingzSize(basicRefererConfig.getMingzSize());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getProxy())) {
+        	config.setProxy(basicRefererConfig.getProxy());
+        }
+        if (!StringUtils.isEmpty(basicRefererConfig.getMock())) {
+        	config.setMock(basicRefererConfig.getMock());
+        }
+        
+        // 文档未描述的4个属性暂不处理
+        
+        
         return config;
     }
 }
