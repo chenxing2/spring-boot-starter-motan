@@ -8,4 +8,4 @@ spring-boot motan 整合的项目，可通过application.properties配置。
 
 [使用demo](https://github.com/chenxing2/spring-boot-motan-demo)
 
-[其他参考](http://www.jianshu.com/p/941c2fe65d52)
+[其他参考](http://www.jianshu.com/notebooks/6195896/latest)
