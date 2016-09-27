@@ -230,7 +230,7 @@ public class MotanConfig {
 	        extConfig.setId(basicServiceConfig.getExtConfigId());
 	        config.setExtConfig(extConfig);
         }
-		if (!StringUtils.isEmpty(basicServiceConfig.getExtConfigId())) {
+		if (!StringUtils.isEmpty(basicServiceConfig.getProxy())) {
 			config.setProxy(basicServiceConfig.getProxy());
 		}
 		if (!StringUtils.isEmpty(basicServiceConfig.getGroup())) {
@@ -266,7 +266,19 @@ public class MotanConfig {
 		if (!StringUtils.isEmpty(basicServiceConfig.getCodec())) {
 			config.setCodec(basicServiceConfig.getCodec());
 		}
-        
+		if (!StringUtils.isEmpty(basicServiceConfig.getFilter())) {
+			config.setFilter(basicServiceConfig.getFilter());
+		}
+		if (!StringUtils.isEmpty(basicServiceConfig.getModule())) {
+			config.setModule(basicServiceConfig.getModule());
+		}
+		if (basicServiceConfig.getActives() != null) {
+			config.setActives(basicServiceConfig.getActives());
+		}
+		if (basicServiceConfig.getRegister() != null) {
+			config.setRegister(basicServiceConfig.getRegister());
+		}
+		
         return config;
     }
 	

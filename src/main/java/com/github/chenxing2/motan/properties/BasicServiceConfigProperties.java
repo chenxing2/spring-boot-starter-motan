@@ -52,7 +52,7 @@ public class BasicServiceConfigProperties {
 	/** 抛出异常, default true */
 	private Boolean throwException;
 	
-	/** 应用信息 */
+	/** 应用信息, default motan */
 	private String application;
 	
 	/** 是否共享channel, default false */
@@ -77,6 +77,18 @@ public class BasicServiceConfigProperties {
 	
 	/** 协议编码, default motan */
 	private String codec;
+	
+	/** 过滤器配置 */
+	private String filter;
+	
+	/** 模块信息, default motan */
+	private String module;
+	
+	/** 最大请求数，0为不做并发限制, default 0 */
+	private Integer actives;
+	
+	/** 在该注册中心上服务是否暴露, default true */	
+	private Boolean register;
 
 	/**
 	 * @return the id
@@ -286,5 +298,61 @@ public class BasicServiceConfigProperties {
 	 */
 	public void setCodec(String codec) {
 		this.codec = codec;
+	}
+
+	/**
+	 * @return the filter
+	 */
+	public String getFilter() {
+		return filter;
+	}
+
+	/**
+	 * @param filter the filter to set
+	 */
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	/**
+	 * @return the module
+	 */
+	public String getModule() {
+		return module;
+	}
+
+	/**
+	 * @param module the module to set
+	 */
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	/**
+	 * @return the actives
+	 */
+	public Integer getActives() {
+		return actives;
+	}
+
+	/**
+	 * @param actives the actives to set
+	 */
+	public void setActives(Integer actives) {
+		this.actives = actives;
+	}
+
+	/**
+	 * @return the register
+	 */
+	public Boolean getRegister() {
+		return register;
+	}
+
+	/**
+	 * @param register the register to set
+	 */
+	public void setRegister(Boolean register) {
+		this.register = register;
 	}
 }
