@@ -90,6 +90,8 @@ public class BasicServiceConfigProperties {
 	/** 在该注册中心上服务是否暴露, default true */	
 	private Boolean register;
 
+	private String host;
+
 	/**
 	 * @return the id
 	 */
@@ -355,4 +357,8 @@ public class BasicServiceConfigProperties {
 	public void setRegister(Boolean register) {
 		this.register = register;
 	}
+
+	public String getHost() { return host; }
+
+	public void setHost(String host) { this.host = host; }
 }
