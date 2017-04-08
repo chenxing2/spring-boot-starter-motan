@@ -278,7 +278,10 @@ public class MotanConfig {
 		if (basicServiceConfig.getRegister() != null) {
 			config.setRegister(basicServiceConfig.getRegister());
 		}
-		
+		if (!StringUtils.isEmpty(basicServiceConfig.getHost())) {
+			config.setHost(basicServiceConfig.getHost());
+		}
+
         return config;
     }
 	
